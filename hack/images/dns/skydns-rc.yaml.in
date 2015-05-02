@@ -40,7 +40,8 @@ desiredState:
                     # entrypoint = "/skydns",
                     "-machines=http://localhost:4001",
                     "-addr=0.0.0.0:53",
-                    "-domain=___dns_domain___."
+                    "-domain=___dns_domain___.",
+                    "-nameservers=___dns_nameservers___"
             ]
             ports:
               - name: dns
