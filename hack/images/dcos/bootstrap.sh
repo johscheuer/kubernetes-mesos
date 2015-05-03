@@ -173,7 +173,7 @@ prepare_kube_dns() {
   kube_cluster_dns=${DNS_SERVER_IP:-10.10.10.10}
   kube_cluster_domain=${DNS_DOMAIN:-kubernetes.local}
   local kube_nameservers=$(cat /etc/resolv.conf|grep -e ^nameserver|head -3|cut -f2 -d' '|sed -e 's/$/:53/g'|xargs echo -n|tr ' ' ,)
-  kube_nameservers=${kube_nameservers:-8.8.8.8:53,8.8.4.4:53}
+  kube_nameservers=${kube_nameservers:-${DNS_NAMESERVERS:-8.8.8.8:53,8.8.4.4:53}}
   for f in $obj; do
     cat /opt/$f.in | sed \
       -e "s/___dns_domain___/${kube_cluster_domain}/g" \
