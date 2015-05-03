@@ -200,7 +200,7 @@ EOF
 
   sed -i -e '$i test -f kill && exec s6-svc -d $(pwd) || exec \\' ${service_dir}/kube_dns/finish
 
-  # it's ok if etcd-server-depends is also monitoring etcd-server, the order of ops is this:
+  # it's ok if etcd-server-depends is also monitoring apiserver, the order of ops is this:
   # 1. etcd-server-depends starts etcd, waits for it to come up
   # 2. etcd-server-depends starts apiserver, control-manager, scheduler, kube_dns
   # 3. kube_dns-depends starts apiserver (already started), waits for it to come up
