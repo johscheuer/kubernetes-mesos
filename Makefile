@@ -145,4 +145,4 @@ update:
 		sed -e 's/^.*Path": "\(.*\)",/\1/g' | cut -f1-3 -d/|sort|uniq|xargs -t -I{} godep update {}/...
 
 kube2sky: prepare
-	env GOPATH=$(current_dir)/hack/images/dns/kube2sky/go:$(_GOPATH) $(MAKE) -C $(current_dir)/hack/images/dns/kube2sky
+	env GOPATH=$(_GOPATH) $(MAKE) -C $(current_dir)/hack/images/dns/kube2sky
