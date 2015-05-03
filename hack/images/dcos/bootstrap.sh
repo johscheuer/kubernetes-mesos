@@ -58,6 +58,15 @@ host_ip=$(echo $HOST | grep -e '[0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+' >/dev/null 2
 test -n "$host_ip" || host_ip=$(lookup_ip "$HOST")
 echo host_ip=$host_ip
 
+# mesos cloud provider configuration
+cloud_config=${sandbox}/cloud.cfg
+cat <<EOF >${cloud_config}
+[mesos-cloud]
+  mesos-master		= ${mesos_master}
+  http-client-timeout	= ${K8SM_CLOUD_HTTP_CLIENT_TIMEOUT:-5s}
+  state-cache-ttl	= ${K8SM_CLOUD_STATE_CACHE_TTL:-20s}
+EOF
+
 #
 # create services directories and scripts
 #
@@ -106,10 +115,10 @@ $apply_uids
   --address=$host_ip
   --port=$apiserver_port
   --read_only_port=$apiserver_ro_port
-  --mesos_master=${mesos_master}
   --etcd_servers=${etcd_server_list}
   --portal_net=${PORTAL_NET:-10.10.10.0/24}
   --cloud_provider=mesos
+  --cloud_config=${cloud_config}
   --v=${APISERVER_GLOG_v:-${logv}}
 EOF
 
@@ -124,8 +133,9 @@ $apply_uids
 /opt/km controller-manager
   --address=$host_ip
   --port=$controller_manager_port
-  --mesos_master=${mesos_master}
   --master=http://$host_ip:$apiserver_port
+  --cloud_provider=mesos
+  --cloud_config=${cloud_config}
   --v=${CONTROLLER_MANAGER_GLOG_v:-${logv}}
 EOF
 
