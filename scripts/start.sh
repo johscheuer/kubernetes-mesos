@@ -33,7 +33,7 @@ SUBPROC_MESOS="$!"
 SUBPROC_API_SERVER="$!"
 
 # wait (up to 10 seconds) until the apiserver is responsive
-timeout 10 bash -c "while ! echo exit | nc -z 172.17.0.76 8888; do sleep 0.5; done"
+timeout 10 bash -c "while ! echo exit | nc -z $SERVICE_HOST 8888; do sleep 0.5; done"
 
 ./bin/km controller-manager \
   --master=${SERVICE_HOST}:8888 \
