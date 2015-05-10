@@ -18,6 +18,7 @@ apiserver_ro_host=${APISERVER_RO_HOST:-${default_dns_name}}
 
 scheduler_host=${SCHEDULER_HOST:-${default_dns_name}}
 scheduler_port=${SCHEDULER_PORT:-10251}
+scheduler_driver_port=${SCHEDULER_DRIVER_PORT:-25501}
 
 framework_weburi=${FRAMEWORK_WEBURI:-http://${apiserver_host}:${apiserver_port}/static/}
 
@@ -38,8 +39,8 @@ etcd_server_peer_port=${ETCD_SERVER_PEER_PORT:-4002}
 if test -n "$DISABLE_ETCD_SERVER"; then
   etcd_server_list=${ETCD_SERVER_LIST:-http://${service_proxy}:${etcd_server_port}}
 else
-  etcd_advertise_server_host=${ETCD_ADVERTISE_SERVER_HOST:-${default_dns_name}}
-  etcd_server_host=${ETCD_SERVER_HOST:-${HOST}}
+  etcd_advertise_server_host=${ETCD_ADVERTISE_SERVER_HOST:-127.0.0.1}
+  etcd_server_host=${ETCD_SERVER_HOST:-127.0.0.1}
 
   etcd_initial_advertise_peer_urls=${ETCD_INITIAL_ADVERTISE_PEER_URLS:-http://${etcd_advertise_server_host}:${etcd_server_peer_port}}
   etcd_listen_peer_urls=${ETCD_LISTEN_PEER_URLS:-http://${etcd_server_host}:${etcd_server_peer_port}}
@@ -175,6 +176,7 @@ $apply_uids
   --km_path=${sandbox}/executor-installer.sh
   --advertised_address=${scheduler_host}:${scheduler_port}
   --framework_weburi=${framework_weburi}
+  --driver_port=${scheduler_driver_port}
 EOF
 
 prepare_kube_dns() {
