@@ -15,6 +15,7 @@ apiserver_host=${APISERVER_HOST:-${default_dns_name}}
 apiserver_port=${APISERVER_PORT:-8888}
 apiserver_ro_port=${APISERVER_RO_PORT:-8889}
 apiserver_ro_host=${APISERVER_RO_HOST:-${default_dns_name}}
+apiserver_secure_port=${APISERVER_SECURE_PORT:-6443}
 
 scheduler_host=${SCHEDULER_HOST:-${default_dns_name}}
 scheduler_port=${SCHEDULER_PORT:-10251}
@@ -116,6 +117,7 @@ $apply_uids
   --address=$host_ip
   --port=$apiserver_port
   --read_only_port=$apiserver_ro_port
+  --secure_port=${apiserver_secure_port}
   --etcd_servers=${etcd_server_list}
   --portal_net=${PORTAL_NET:-10.10.10.0/24}
   --cloud_provider=mesos
