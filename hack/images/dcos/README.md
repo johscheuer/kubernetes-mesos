@@ -1,3 +1,18 @@
+## Overview
+
+This package contains scripts to build the DCOS Kubernetes docker container image.
+
+## DNS Support
+
+Kubernetes supports an add-on called kube-dns.
+kube-dns is intended to resolve Kubernetes service names, such as `frontend.default.kubernetes.local`, that map to internal Kubernetes service portal IP addresses.
+These service portal IP addresses are managed by the Kubernetes cluster and traffic is routed to them via special iptables DNAT rules that are maintained by the k8s proxy.
+Service portal IP addresses are not intended to be referenced by anything other than other k8s pods/services (read: no other mesos client or task should reference them).
+
+Deploying the kube-dns addon is optional (defaults to off) and it can be enabled by setting the 'enable-dns' package option (see the walkthrough example below).
+There is no funny interaction between kube-dns and mesos-dns;
+mesos-dns servers may be used as fallbacks for name resolution since their IP addresses are present in the slave's `/etc/resolv.conf`.
+
 ## Usage
 ```
 ## build and push the docker image
