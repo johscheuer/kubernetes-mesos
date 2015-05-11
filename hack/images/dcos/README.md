@@ -32,6 +32,10 @@ Some prerequisites:
 - set up a DCOS cluster
 - install the `kubernetes` app using the DCOS CLI tooling
   - `dcos package install kubernetes`
+  - alternatively, if you want to use the kube-dns add-on:
+    - `echo '{ "kubernetes": { "enable-dns": "1" } }' >/tmp/options`
+    - `dcos package install --options=/tmp/options kubernetes`
+
 - build yourself a kubectl, either using the Kubernetes or Kubernetes-Mesos build process
 
 ```shell
