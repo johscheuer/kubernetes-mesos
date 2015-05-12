@@ -48,9 +48,11 @@ if cmd_exists "ip"; then
 elif cmd_exists "ifconfig"; then
     # Mac support
     export PUBLIC_IP=$(ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active' | egrep -o -m 1 '^[^\t:]+' | xargs ipconfig getifaddr)
-else
-    echo "ip or ifconfig command not found"
-    exit 1
+fi
+
+if [ -z "${PUBLIC_IP}" ]; then
+    echo "Public IP Not Found. Using 127.0.0.1"
+    PUBLIC_IP="127.0.0.1"
 fi
 
 export K8SM_HOST=${PUBLIC_IP}
