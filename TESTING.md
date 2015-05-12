@@ -2,8 +2,6 @@
 
 ## Build Docker image
 
-Note: make and make install must be run first
-
 ```
 docker build -t mesosphere/kubernetes-mesos .
 ```
